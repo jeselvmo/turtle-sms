@@ -5,35 +5,17 @@
  */
 
 // 开发环境
-const devServer = 'https://devbeecode.ljlx.com';
-const devCdnServer = `https://devbeecode.ljlx.com`;
+const devServer = 'https://localhost:8360';
 const development = {
-    name: 'development',
-    apiPath: `${devServer}/api`,
-    scratchPath: `${devServer}/beemisc/scratch`,
-    webPath: `${devServer}/beemisc/web`,
-
-    imgUrl: `${devCdnServer}`,
-
-    reslibPath: `${devCdnServer}/beemisc/reslib`,
-    staticPath: `${devCdnServer}/beemisc/static`,
-    libsPath: `${devCdnServer}/beemisc/libs`
+  name: 'development',
+  apiPath: `${devServer}/api`
 };
 
 // 生产环境配置
-const prodCdnServer = `https://cdnbeecode.ljlx.com/Obj_BeeCode`;
-const prodServer = 'https://beecode.ljlx.com';
+const prodServer = 'https://zaifumo.kecoyo.com';
 const production = {
-    name: 'production',
-    apiPath: `${prodServer}/api`,
-    scratchPath: `${prodServer}/beemisc/scratch`,
-    webPath: `${prodServer}/beemisc/web`,
-
-    imgUrl: '',
-
-    reslibPath: `${prodCdnServer}/beemisc/reslib`,
-    staticPath: `${prodCdnServer}/beemisc/static`,
-    libsPath: `${prodCdnServer}/beemisc/libs`
+  name: 'production',
+  apiPath: `${prodServer}/api`
 };
 
 // const env = development;

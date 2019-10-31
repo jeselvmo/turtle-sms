@@ -4,19 +4,12 @@
       <view class="kind-list">
         <repeat for="{{list}}" key="id">
           <view class="kind-list__item">
-            <view id="{{item.id}}" class="weui-flex kind-list__item-hd {{item.open ? 'kind-list__item-hd_show' : ''}}"
-                  @tap="toggle({{item.id}})">
-              <view class="weui-flex__item">{{item.name}}</view>
-              <image class="kind-list__img" src="../images/icon_nav_{{item.id}}.png"></image>
+            <view id="{{item.id}}" class="weui-flex kind-list__item-hd">
+              <view class="kind-list__item-address">{{item.address}}</view>
+              <view class="kind-list__item-date">{{item.date | formatDate}}</view>
             </view>
-            <view class="kind-list__item-bd {{item.open ? 'kind-list__item-bd_show' : ''}}">
-              <view class="weui-cells {{item.open ? 'weui-cells_show' : ''}}">
-                <navigator url="./{{page}}" class="weui-cell weui-cell_access" wx:for="{{item.pages}}" wx:for-item="page"
-                           wx:key="*this">
-                  <view class="weui-cell__bd">{{page}}</view>
-                  <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-                </navigator>
-              </view>
+            <view class="kind-list__item-bd">
+              {{item.body}}
             </view>
           </view>
         </repeat>
@@ -27,56 +20,32 @@
 
 <script>
 import wepy from 'wepy';
+import smsApi from '../apis/smsApi';
 
 export default class Index extends wepy.page {
   data = {
-    list: [
-      {
-        id: 'form',
-        name: '东方财富',
-        open: false,
-        pages: ['button', 'list', 'input', 'slider', 'uploader']
-      },
-      {
-        id: 'widget',
-        name: '洛阳钼业',
-        open: false,
-        pages: [
-          'article',
-          'badge',
-          'flex',
-          'footer',
-          'gallery',
-          'grid',
-          'icons',
-          'loadmore',
-          'panel',
-          'preview',
-          'progress'
-        ]
-      },
-      {
-        id: 'feedback',
-        name: '京东方A',
-        open: false,
-        pages: ['actionsheet', 'dialog', 'msg', 'picker', 'toast']
-      },
-      {
-        id: 'nav',
-        name: '中国石油',
-        open: false,
-        pages: ['navbar', 'tabbar']
-      },
-      {
-        id: 'search',
-        name: '平安保险',
-        open: false,
-        pages: ['searchbar']
-      }
-    ]
+    list: []
   };
 
+  onLoad() {
+    smsApi.list({ pageIndex: 1, pageSize: 50 }).then(result => {
+      if (result.errno) {
+        return;
+      }
+      this.list = result.data;
+      this.$apply();
+    });
+  }
+
+  filters = {
+    formatDate: value => {
+      return '123';
+    }
+  };
   methods = {
+    formatDate: value => {
+      return '123';
+    },
     toggle(id) {
       this.list.forEach(v => (v.open = v.id === id ? !v.open : false));
     }
@@ -109,34 +78,35 @@ export default class Index extends wepy.page {
   }
 
   .kind-list {
+    &__item {
+      &-address {
+        color: #333333;
+      }
+      &-date {
+        color: #999999;
+      }
+    }
   }
   .kind-list__item {
     margin: 10px 0;
     background-color: #ffffff;
     border-radius: 2px;
     overflow: hidden;
+
     &:first-child {
       margin-top: 0;
     }
   }
-  .kind-list__img {
-    width: 30px;
-    height: 30px;
-  }
-
   .kind-list__item-hd {
-    padding: 20px;
-    transition: opacity 0.3s;
-    &_show {
-      opacity: 0.4;
-    }
+    padding: 1em;
+    padding-bottom: 0.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .kind-list__item-bd {
-    height: 0;
-    overflow: hidden;
-    &_show {
-      height: auto;
-    }
+    padding: 1em;
+    padding-top: 0;
   }
 }
 </style>
